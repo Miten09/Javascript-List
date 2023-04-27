@@ -1,4 +1,13 @@
 import React, { useState } from "react";
+import Button from "@mui/material/Button";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
 function Form() {
   const [name, setname] = useState("");
@@ -11,6 +20,7 @@ function Form() {
 
   function Handlesubmit(e) {
     e.preventDefault();
+
     setstore((olditems) => {
       return [name, ...olditems];
     });
@@ -42,12 +52,14 @@ function Form() {
     <>
       <div className="container d-flex justify-content-center">
         <form action="" className="d-flex w-50">
-          <input
+          <Button
             type="button"
-            value={"Sorting"}
+            variant="contained"
             className="me-4 btn btn-success"
             onClick={HandleSort}
-          />
+          >
+            Sorting
+          </Button>
           <br />
           <input
             className="form-control"
@@ -57,33 +69,47 @@ function Form() {
             placeholder="Enter Your Name"
             onChange={changeHandler}
           />
-          <input
+          <Button
             type="submit"
-            value="submit"
+            variant="contained"
+            // value={name}
             className="ms-2 btn btn-success"
             onClick={Handlesubmit}
-          />
+            disabled={name.length === 0}
+          >
+            Submit
+          </Button>
           &nbsp;
         </form>
       </div>
-      <div style={{ marginLeft: "45%", fontSize: "30px" }}>
-        {store.map((value, index) => {
-          // console.log(index)
-          return (
-            <div key={index}>
-              <li>
-                {value} &nbsp;&nbsp;&nbsp;
-                <button
-                  className="btn btn-danger "
-                  onClick={() => deleteHandler(index)}
-                >
-                  -
-                </button>
-              </li>
-            </div>
-          );
-        })}
-      </div>
+      <TableContainer component={Paper}>
+        <Table aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <TableCell style={{ textAlign: "center", fontSize: "20px" }}>
+                All Names Displayed Here
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody style={{ width: "100px" }}>
+            {store.map((value, index) => {
+              return (
+                <TableRow key={index}>
+                  <TableCell style={{ textAlign: "center", fontSize: "20px" }}>
+                    {value} &nbsp;&nbsp;&nbsp;
+                    <button
+                      className="btn btn-danger "
+                      onClick={() => deleteHandler(index)}
+                    >
+                      -
+                    </button>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 }
