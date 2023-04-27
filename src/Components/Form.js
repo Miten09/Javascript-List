@@ -3,6 +3,7 @@ import React, { useState } from "react";
 function Form() {
   const [name, setname] = useState("");
   const [store, setstore] = useState([]);
+  const [toggle, settoggle] = useState(null);
 
   function changeHandler(e) {
     setname(e.target.value);
@@ -11,39 +12,60 @@ function Form() {
   function Handlesubmit(e) {
     e.preventDefault();
     setstore((olditems) => {
-      return [...olditems, name];
+      return [name, ...olditems];
     });
     setname("");
   }
 
   function HandleSort() {
-    setstore(store.sort());
+    // setstore([...store].sort());
+    // console.log("hey");
+    settoggle(!toggle);
+    if (toggle) {
+      setstore([...store].sort());
+    }
+    if (!toggle) {
+      setstore([...store].sort().reverse());
+    }
   }
+
   return (
     <>
-      <form action="">
-        <label htmlFor="">Enter Your Name : </label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          value={name}
-          onChange={changeHandler}
-        />
-        &nbsp;&nbsp;&nbsp;
-        <input type="submit" value="submit" onClick={Handlesubmit} />
-        &nbsp;&nbsp;&nbsp;
-        <button type="button" onClick={HandleSort}>
-          Sort
-        </button>
-      </form>
-      {store.map((value) => {
-        return (
-          <>
-            <li>{value}</li>
-          </>
-        );
-      })}
+      <div className="container d-flex justify-content-center">
+        <form action="" className="d-flex w-50">
+          <input
+            type="button"
+            value={"Sorting"}
+            className="me-4 btn btn-success"
+            onClick={HandleSort}
+          />
+          <br />
+          <input
+            className="form-control"
+            type="text"
+            id="name"
+            value={name}
+            placeholder="Enter Your Name"
+            onChange={changeHandler}
+          />
+          <input
+            type="submit"
+            value="submit"
+            className="ms-2 btn btn-success"
+            onClick={Handlesubmit}
+          />
+          &nbsp;
+        </form>
+      </div>
+      <div style={{ marginLeft: "45%", fontSize: "30px" }}>
+        {store.map((value) => {
+          return (
+            <>
+              <li>{value}</li>
+            </>
+          );
+        })}
+      </div>
     </>
   );
 }
