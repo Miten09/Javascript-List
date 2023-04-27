@@ -29,6 +29,15 @@ function Form() {
     }
   }
 
+  function deleteHandler(id) {
+    setstore((olditems) => {
+      return olditems.filter((items, index) => {
+        console.log(index, id);
+        return index !== id;
+      });
+    });
+  }
+
   return (
     <>
       <div className="container d-flex justify-content-center">
@@ -58,11 +67,20 @@ function Form() {
         </form>
       </div>
       <div style={{ marginLeft: "45%", fontSize: "30px" }}>
-        {store.map((value) => {
+        {store.map((value, index) => {
+          // console.log(index)
           return (
-            <>
-              <li>{value}</li>
-            </>
+            <div key={index}>
+              <li>
+                {value} &nbsp;&nbsp;&nbsp;
+                <button
+                  className="btn btn-danger "
+                  onClick={() => deleteHandler(index)}
+                >
+                  -
+                </button>
+              </li>
+            </div>
           );
         })}
       </div>
