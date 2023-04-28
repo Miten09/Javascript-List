@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-function Form() {
+function Form(props) {
   const [name, setname] = useState("");
   const [store, setstore] = useState([]);
   const [toggle, settoggle] = useState(null);
+  const [search, setsearch] = useState("");
 
   function changeHandler(e) {
     setname(e.target.value);
@@ -48,14 +48,27 @@ function Form() {
     });
   }
 
+  function handleSearchChange(e) {
+    setsearch(e.target.value);
+  }
+
+  function Handlesearch() {
+    setstore((items) => {
+      return items.filter((value) => {
+        // console.log(key, search);
+        return value === search;
+      });
+    });
+  }
+
   return (
     <>
-      <div className="container d-flex justify-content-center">
+      <div className="container d-flex justify-content-center ml-1">
         <form action="" className="d-flex w-50">
           <Button
             type="button"
             variant="contained"
-            className="me-4 btn btn-success"
+            className="me-3 btn btn-success w-25"
             onClick={HandleSort}
           >
             Sorting
@@ -68,19 +81,35 @@ function Form() {
             value={name}
             placeholder="Enter Your Name"
             onChange={changeHandler}
+            autoComplete="off"
           />
           <Button
             type="submit"
             variant="contained"
             // value={name}
-            className="ms-2 btn btn-success"
+            className="ms-2 btn btn-success w-25"
             onClick={Handlesubmit}
             disabled={name.length === 0}
           >
             Submit
           </Button>
-  
-          &nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input
+            type="text"
+            className="form-control w-50 ml-3"
+            placeholder="Search"
+            value={search}
+            onChange={handleSearchChange}
+          />
+          &nbsp;&nbsp;&nbsp;
+          <Button
+            type="button"
+            variant="contained"
+            className="me-1 btn btn-success w-25"
+            onClick={Handlesearch}
+          >
+            Search
+          </Button>
         </form>
       </div>
       <TableContainer component={Paper}>
@@ -95,7 +124,7 @@ function Form() {
           <TableBody style={{ width: "100px" }}>
             {store.map((value, index) => {
               return (
-                <TableRow key={index}>
+                <TableRow key={index} id={index}>
                   <TableCell style={{ textAlign: "center", fontSize: "20px" }}>
                     {value} &nbsp;&nbsp;&nbsp;
                     <button
